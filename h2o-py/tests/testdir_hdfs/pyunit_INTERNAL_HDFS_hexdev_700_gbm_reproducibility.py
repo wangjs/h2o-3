@@ -17,12 +17,12 @@ def gbm_reproducibility():
         seedv = randint(1,10000000000)
         auc2 = runGBM(seedv, True)
 
-        if (randint(1,10) > 5):
-            auc1 = runGBM(seedv, True)
-            pyunit_utils.equal_two_arrays(auc1, auc2, 1e-10, True)  # should be equal in this case
-        else:
-            auc3 = runGBM(seedv, False)  # threshold should be different this run.
-            assert not(pyunit_utils.equal_two_arrays(auc2, auc3, 1e-10, False)), "parameter true_reproducibility is not working."
+
+        auc1 = runGBM(seedv, True)
+        pyunit_utils.equal_two_arrays(auc1, auc2, 1e-10, True)  # should be equal in this case
+
+        auc3 = runGBM(seedv, False)  # threshold should be different this run.
+        assert not(pyunit_utils.equal_two_arrays(auc2, auc3, 1e-10, False)), "parameter true_reproducibility is not working."
     else:
         raise EnvironmentError
 
@@ -40,7 +40,7 @@ def runGBM(seedV, repo):
     else:
         print("Model run time (ms) without reproducibility is {0}".format(gbm._model_json["output"]["run_time"]))
 
-auc = pyunit_utils.extract_from_twoDimTable(gbm._model_json['output']['training_metrics']._metric_json['thresholds_and_metric_scores'], 'threshold', takeFirst=False)
+    auc = pyunit_utils.extract_from_twoDimTable(gbm._model_json['output']['training_metrics']._metric_json['thresholds_and_metric_scores'], 'threshold', takeFirst=False)
     h2o.remove(h2oframe_csv)
     h2o.remove(gbm)
     return auc

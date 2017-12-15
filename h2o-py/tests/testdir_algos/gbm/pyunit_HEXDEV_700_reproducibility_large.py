@@ -14,12 +14,12 @@ def gbm_reproducibility():
 
   auc2 = runGBM(seedv, True, ntree)
 
-  if (randint(1,10) > 5): # only run 1 of the two tests to save time
-    auc1 = runGBM(seedv, True, ntree)
-    pyunit_utils.equal_two_arrays(auc1, auc2, 1e-10, True)  # should be equal in this case
-  else:
-    auc3 = runGBM(seedv, False, ntree)  # threshold should be different this run.
-    assert not(pyunit_utils.equal_two_arrays(auc2, auc3, 1e-10, False)), "parameter true_reproducibility is not working."
+
+  auc1 = runGBM(seedv, True, ntree)
+  pyunit_utils.equal_two_arrays(auc1, auc2, 1e-10, True)  # should be equal in this case
+
+  auc3 = runGBM(seedv, False, ntree)  # threshold should be different this run.
+  assert not(pyunit_utils.equal_two_arrays(auc2, auc3, 1e-10, False)), "parameter true_reproducibility is not working."
 
 
 def runGBM(seedV, repo, ntree):

@@ -82,6 +82,7 @@ class BuildConfig {
   private String mode
   private String nodeLabel
   private String commitMessage
+  private buildSummary
   private boolean defaultOverrideRerun = false
   private String majorVersion
   private String buildVersion
@@ -95,10 +96,11 @@ class BuildConfig {
     (LANG_NONE): true
   ]
 
-  def initialize(final Script context, final String mode, final String commitMessage, final List<String> changes, final boolean overrideDetectionChange) {
+  def initialize(final Script context, final String mode, final String commitMessage, final List<String> changes, final boolean overrideDetectionChange, final buildSummary) {
     this.mode = mode
     this.nodeLabel = nodeLabel
     this.commitMessage = commitMessage
+    this.buildSummary = buildSummary
     if (overrideDetectionChange) {
       markAllLangsForTest()
     } else {
@@ -213,6 +215,30 @@ class BuildConfig {
 
   public GString getGitHubCommitStateContext(final String stageName) {
     return "${COMMIT_STATE_PREFIX} » ${stageName}"
+  }
+
+  @NonCPS
+  void addStageSummary(final String stageName) {
+    buildSummary.addStageSummary(stageName)
+  }
+
+  @NonCPS
+  void markStageSuccessful(final String stageName) {
+    buildSummary.setStageResult(stageName, buildSummary.RESULT_SUCCESS)
+  }
+
+  @NonCPS
+  void markStageFailed(final String stageName) {
+    buildSummary.setStageResult(stageName, buildSummary.RESULT_FAILURE)
+  }
+
+  @NonCPS
+  void setStageNode(final String stageName, final String nodeName) {
+    buildSummary.setStageNode(stageName, nodeName)
+  }
+
+  def getBuildSummary() {
+    return buildSummary
   }
 
 }

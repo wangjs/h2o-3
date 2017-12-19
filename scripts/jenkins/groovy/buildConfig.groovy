@@ -218,7 +218,7 @@ class BuildConfig {
   }
 
   @NonCPS
-  void addStageSummary(final String stageName) {
+  void addStageSummary(context, final String stageName) {
     buildSummary.addStageSummary(stageName)
   }
 

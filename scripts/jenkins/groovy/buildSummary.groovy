@@ -5,7 +5,9 @@ class BuildSummary {
 
     private final List<StageSummary> stageSummaries = []
 
-    StageSummary addStageSummary(final String stageName) {
+    StageSummary addStageSummary(context, final String stageName) {
+        context.echo "${this.toString()}"
+        context.echo "${stageSummaries.toString()}"
         final StageSummary alreadyCreated = findForName(stageName)
         if (alreadyCreated != null) {
             throw new IllegalArgumentException("Stage Summary for %s already added".format(stageName))

@@ -25,9 +25,9 @@ def call(final scmEnv, final String mode, final boolean overrideDetectionChange)
   buildConfig.initialize(this, mode, commitMessage, changes, overrideDetectionChange, buildSummaryFactory.create())
 
   echo "${buildConfig.getBuildSummary().toString()}"
-  buildConfig.addStageSummary('1')
+  buildConfig.addStageSummary(this, '1')
   echo "${buildConfig.getBuildSummary().toString()}"
-  buildConfig.addStageSummary('2')
+  buildConfig.addStageSummary(this, '2')
   echo "${buildConfig.getBuildSummary().toString()}"
   error 'TEST'
 
